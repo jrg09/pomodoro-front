@@ -4,7 +4,7 @@ const PomodoroSummary = () => {
   const [summary, setSummary] = useState([]);
 
   useEffect(() => {
-    fetch('http://192.168.192.100:8030/pomodoros')
+    fetch(import.meta.env.VITE_API_URL + '/pomodoros')
       .then(response => response.json())
       .then(pomodoroData => {
         const pomodorosData = Array.isArray(pomodoroData.pomodoros) ? pomodoroData.pomodoros : [];

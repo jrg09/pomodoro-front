@@ -7,7 +7,7 @@ const PomodoroTable = () => {
   const [selectedDate, setSelectedDate] = useState(new Date().toISOString().slice(0, 10));
 
   useEffect(() => {
-    fetch('http://192.168.192.100:8030/pomodoros')
+    fetch(import.meta.env.VITE_API_URL + '/pomodoros')
       .then(response => response.json())
       .then(data => {
         const pomodoros = Array.isArray(data.pomodoros) ? data.pomodoros : [];
@@ -62,7 +62,7 @@ const PomodoroTable = () => {
   };
 
   return (
-    <div className='card my-4'>
+    <div className='card my-4 p-2'>
       <div className="mb-3">
         <select className="form-select mb-2" value={filter} onChange={handleFilterChange}>
           <option value="All">All</option>
