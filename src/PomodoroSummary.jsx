@@ -8,7 +8,21 @@ const PomodoroSummary = () => {
       .then(response => response.json())
       .then(pomodoroData => {
         const pomodorosData = Array.isArray(pomodoroData.pomodoros) ? pomodoroData.pomodoros : [];
-        const pomodoros = pomodorosData.filter(item => item.tipo === 'Pomodoro');
+
+        const today = new Date();
+        const day = today.getDay();
+        const diff = today.getDate() - day + (day === 0 ? -6 : 1);
+        const monday = new Date(new Date(today).setDate(diff));
+        monday.setHours(0, 0, 0, 0);
+
+        const sunday = new Date(monday);
+        sunday.setDate(monday.getDate() + 6);
+        sunday.setHours(23, 59, 59, 999);
+
+        const pomodoros = pomodorosData.filter(item => {
+          const itemDate = new Date(item.inicio);
+          return item.tipo === 'Pomodoro' && itemDate >= monday && itemDate <= sunday;
+        });
 
         const summaryData = pomodoros.reduce((acc, curr) => {
           const date = new Date(curr.inicio).toLocaleDateString();
